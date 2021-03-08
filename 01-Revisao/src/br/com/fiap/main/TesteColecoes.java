@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.fiap.bean.Animal;
 import br.com.fiap.bean.Cachorro;
 
 public class TesteColecoes {

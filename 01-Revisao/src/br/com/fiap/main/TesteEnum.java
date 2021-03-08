@@ -11,6 +11,7 @@ public class TesteEnum {
 		
 		//Atribuir um sexo para o dog
 		dog.setGenero(Sexo.MACHO);
+	
 		
 		//Testar se o dog é femea
 		if (dog.getGenero() == Sexo.FEMEA)

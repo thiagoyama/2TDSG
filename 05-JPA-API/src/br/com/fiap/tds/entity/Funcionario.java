@@ -10,6 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -72,6 +75,12 @@ public class Funcionario {
 		this.genero = genero;
 		this.cargo = cargo;
 		this.salario = salario;
+	}
+	
+	//Método que executa automáticamente antes de cadastrar
+	@PostPersist
+	public void executar() {
+		System.out.println("Executando...");
 	}
 	
 	@Override

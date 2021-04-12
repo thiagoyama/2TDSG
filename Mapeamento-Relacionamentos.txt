@@ -1,0 +1,28 @@
+
+
+Cascade - PERSIST
+Sempre que o atributo tiver o mappedBy, o nome do atributo que mapeia a FK no banco deve ser preenchido!
+
+Um-Para-Um:
+
+Unidirecional
+Ir na classe que mapeia a FK
+	- Adicionar o atributo de referência para a classe e a anotação do tipo da relação
+	- (Opcional) Adicionar o @JoinColumnn para configurar a coluna da FK
+	
+Bidirecional
+Ir na classe que não mapeia a FK	
+	- Adicionar o atributo de referência para a classe e a anotação do tipo da relação
+		- Adicionar o mappedBy com o nome do atributo que mapeia a FK no banco
+		
+Um-Para-Muitos:
+
+Unidirecional
+Ir na classe que mapeia a FK
+	- Adicionar o atributo de referência para a classe e anotação do tipo da relação (@ManyToOne)
+	- (Opcional) Adicionar o @JoinColumnn para configurar a coluna da FK
+	
+Bidirecional
+Ir na classe que não mapeia a FK
+	Adicionar o atributo (Lista) de referência para a classe e a anotação do tipo da relação (@OneToMany)
+		- Adicionar o mappedBy com o nome do atributo que mapeia a FK no banco

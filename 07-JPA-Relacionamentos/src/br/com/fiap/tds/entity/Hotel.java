@@ -1,5 +1,6 @@
 package br.com.fiap.tds.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,8 +38,18 @@ public class Hotel {
 	private Gerente gerente;
 	
 	//Mapeamento do relacionamento bidirecional um-para-muitos
-	@OneToMany(mappedBy = "hotel")
+	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Apartamento> apartamentos;
+	
+	//Um para muitos -> criar um método para adicionar apartamentos
+	public void addApartamento(Apartamento ap) {
+		if (apartamentos == null)
+			apartamentos = new ArrayList<>();
+		//Adicionar o apartamento na lista
+		apartamentos.add(ap);
+		//Setar o hotel do apartamento
+		ap.setHotel(this);
+	}
 
 	public Hotel() {}
 
@@ -85,6 +96,14 @@ public class Hotel {
 
 	public void setGerente(Gerente gerente) {
 		this.gerente = gerente;
+	}
+
+	public List<Apartamento> getApartamentos() {
+		return apartamentos;
+	}
+
+	public void setApartamentos(List<Apartamento> apartamentos) {
+		this.apartamentos = apartamentos;
 	}
 	
 }

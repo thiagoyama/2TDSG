@@ -1,11 +1,16 @@
 package br.com.fiap.tds.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -29,10 +34,21 @@ public class Apartamento {
 	@Column(name="vl_apartamento")
 	private Double valor;
 	
-	//Mapeamento do relacionamento muitos para um
+	//Mapeamento do relacionamento muitos-para-um
 	@ManyToOne
 	@JoinColumn(name="cd_hotel", nullable = false)
 	private Hotel hotel;
+	
+	//Mapeamento do relacionamento muitos-para-muitos
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	//JoinTable -> configuração da tabela associativa
+	// name -> nome da tabela associativa
+	// joinColumns -> configura a coluna da PK/FK da classe atual
+	// inverseJoinColumns -> configura a coluna da PK/FK do outro lado da relação
+	@JoinTable(name="TB_RESERVA", 
+			joinColumns = @JoinColumn(name="cd_apartamento"),
+			inverseJoinColumns = @JoinColumn(name="cd_hospede"))
+	private List<Hospede> hospedes;
 	
 	public Apartamento() {}
 	
@@ -87,6 +103,14 @@ public class Apartamento {
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
+	}
+
+	public List<Hospede> getHospedes() {
+		return hospedes;
+	}
+
+	public void setHospedes(List<Hospede> hospedes) {
+		this.hospedes = hospedes;
 	}
 	
 }

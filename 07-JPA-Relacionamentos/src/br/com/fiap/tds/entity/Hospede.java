@@ -1,5 +1,7 @@
 package br.com.fiap.tds.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,6 +32,10 @@ public class Hospede {
 	@Enumerated(EnumType.STRING)
 	@Column(name="ds_genero", length = 20, nullable = false)
 	private Genero genero;
+	
+	//Mapeamento do relacionamento muitos-para-muitos bidirecional
+	@ManyToMany(mappedBy = "hospedes")
+	private List<Apartamento> apartamentos;
 
 	public Hospede() {}
 
@@ -75,6 +82,14 @@ public class Hospede {
 
 	public void setGenero(Genero genero) {
 		this.genero = genero;
+	}
+
+	public List<Apartamento> getApartamentos() {
+		return apartamentos;
+	}
+
+	public void setApartamentos(List<Apartamento> apartamentos) {
+		this.apartamentos = apartamentos;
 	}
 	
 }

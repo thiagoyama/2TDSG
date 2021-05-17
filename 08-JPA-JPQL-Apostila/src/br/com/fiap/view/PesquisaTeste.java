@@ -10,14 +10,17 @@ import javax.persistence.EntityManager;
 import br.com.fiap.dao.CidadeDAO;
 import br.com.fiap.dao.ClienteDAO;
 import br.com.fiap.dao.PacoteDAO;
+import br.com.fiap.dao.ReservaDAO;
 import br.com.fiap.dao.TransporteDAO;
 import br.com.fiap.dao.impl.CidadeDAOImpl;
 import br.com.fiap.dao.impl.ClienteDAOImpl;
 import br.com.fiap.dao.impl.PacoteDAOImpl;
+import br.com.fiap.dao.impl.ReservaDAOImpl;
 import br.com.fiap.dao.impl.TransporteDAOImpl;
 import br.com.fiap.entity.Cidade;
 import br.com.fiap.entity.Cliente;
 import br.com.fiap.entity.Pacote;
+import br.com.fiap.entity.Reserva;
 import br.com.fiap.entity.Transporte;
 import br.com.fiap.singleton.EntityManagerFactorySingleton;
 import br.com.fiap.util.DataUtil;
@@ -120,6 +123,39 @@ public class PesquisaTeste {
 		System.out.println("Buscar clientes por nome:");
 		clientes.forEach(c -> System.out.println(c.getNome()));
 		
+		//Contar clientes por estado
+		long qtd = clienteDao.contarPorEstado("PR");
+		System.out.println("Contar clientes por estado: " + qtd);
+		//System.out.println("Contar clientes por estado: " + clienteDao.contarPorEstado("PR"));
+		
+		
+		//Somar os preços dos pacotes por um transporte
+		transporte = transporteDao.pesquisar(1);
+		System.out.println("A soma dos preços: " + pacoteDao.somarPorTransporte(transporte));
+		
+		ReservaDAO reservaDao = new ReservaDAOImpl(em);
+		//Buscar reservas pelo código do cliente
+		List<Reserva> reservas = reservaDao.buscarPorCodigoCliente(2);
+		//Exibir as reservas encontradas
+		reservas.forEach(r -> System.out.println(r.getCliente().getNome() + " " + 
+					DataUtil.formatar(r.getDataReserva())));	
+		
+		//Buscar reserva por data de saída do pacote
+		//Definir duas datas
+		Calendar inicio = new GregorianCalendar(2020, Calendar.JANUARY, 1);
+		Calendar fim = new GregorianCalendar(2021, Calendar.DECEMBER, 30);
+		//Pesquisar reservas por data de saída
+		reservas = reservaDao.buscarPorDataSaida(inicio, fim);
+		//Exibir as reservas e a data de saída
+		reservas.forEach(r -> System.out.println(r.getCliente().getNome() + " " + 
+				r.getNumeroDias() + " " + r.getPacote().getDescricao() + " " +
+				DataUtil.formatar(r.getPacote().getDataSaida())));
+		
+		//Buscar pacotes por parte da descrição e data de saída maior do que hoje
+		pacotes = pacoteDao.listarPorDescricaoEDataSaidaMaiorAtual("Bo");
+		System.out.println("Buscar pacotes por parte da descrição e data de saída no futuro");
+		pacotes.forEach(p -> System.out.println(p.getDescricao() + " " + DataUtil.formatar(p.getDataSaida())));
+				
 		//Fechar
 		em.close();
 		EntityManagerFactorySingleton.getInstance().close();

@@ -26,4 +26,7 @@ public interface ClienteDAO extends GenericDAO<Cliente,Integer>{
 	//Obter os clientes por parte do nome sem considerar maiúsculas e minúsculas, ordenado por nome
 	List<Cliente> buscarPorNome(String nome);
 	
+	//Contar a quantidade de clientes de um estado
+	long contarPorEstado(String estado);
+	
 }

@@ -1,7 +1,6 @@
 package br.com.fiap.entity;
 
 import java.util.Calendar;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+//Definir as queries
+
+@NamedQueries({
+
+	@NamedQuery(name ="Reserva.porCliente", 
+			query ="select r from Reserva r where r.cliente.id = :pId"),
+
+	//Pesquisar por data de saída do pacote (Entre duas datas), retornando a reserva
+	@NamedQuery(name ="Reserva.porDataSaida", 
+		query = "select r from Reserva r where r.pacote.dataSaida between :i and :f")
+
+})
 
 @Entity
 @Table(name="TB_EAD_RESERVA")
